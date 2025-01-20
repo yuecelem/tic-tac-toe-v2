@@ -140,30 +140,153 @@ const playGame = ((board, player1, player2) => {
 
 })
 
+
+const displayController = (() => {
+    function displayStartButton() {
+        const startBtn = document.createElement('button');
+        startBtn.classList.add('startBtn');
+        startBtn.textContent = 'Start!'
+        document.body.appendChild(startBtn);
+        console.log(startBtn)
+
+        startBtn.addEventListener("click", () => {
+            startBtn.classList.add('hidden');
+        })}
+
+    function getUserInfo(player) {
+        let selectionArr = [];
+
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('getUserInfoWrapper')
+
+        const h1 = document.createElement('h1');
+        h1.textContent = 'Enter player name and select symbol for ' + player; 
+
+        const nameField = document.createElement('input');
+        nameField.setAttribute('placeholder', "Enter name...")
+        nameField.type = 'text';
+
+        const symbolSelectorX = document.createElement('input')
+        const symbolSelectorXwrapper = document.createElement('div')
+
+        const symbolSelectorO = document.createElement('input')
+        const symbolSelectorOwrapper = document.createElement('div')
+
+
+        const symbolSelectorXLabel = document.createElement('label')
+        const symbolSelectorOLabel = document.createElement('label')
+
+        symbolSelectorX.type = 'radio';
+        symbolSelectorO.type = 'radio';
+
+        symbolSelectorX.name = 'selector';
+        symbolSelectorO.name = 'selector';
+
+        symbolSelectorXLabel.textContent = 'X';
+        symbolSelectorOLabel.textContent = 'O';
+
+        symbolSelectorXLabel.for = 'X';
+        symbolSelectorOLabel.for = 'O';
+
+        symbolSelectorX.value = 'X';
+        symbolSelectorO.value = 'O';
+        
+        const confirmBtn = document.createElement('button');
+        confirmBtn.classList.add('confirmBtn')
+        confirmBtn.textContent = 'Confirm'
+
+        document.body.appendChild(wrapper);
+        wrapper.appendChild(h1)
+        wrapper.appendChild(nameField)
+        wrapper.appendChild(symbolSelectorXwrapper)
+        symbolSelectorXwrapper.appendChild(symbolSelectorXLabel)
+        symbolSelectorXwrapper.appendChild(symbolSelectorX)
+
+        wrapper.appendChild(symbolSelectorOwrapper)
+        symbolSelectorOwrapper.appendChild(symbolSelectorOLabel)
+        symbolSelectorOwrapper.appendChild(symbolSelectorO)
+
+        wrapper.appendChild(confirmBtn)
+        
+        confirmBtn.addEventListener("click", () => {
+            let checked = symbolSelectorX.checked ? symbolSelectorX.value : symbolSelectorO.value;
+            selectionArr = [nameField.value, checked]
+            console.log(selectionArr)
+            wrapper.classList.add('hidden')
+        })
+
+    }
+
+    function drawBoard(board) {
+        const boardWrapper = document.createElement('div');
+        boardWrapper.classList.add('boardWrapper')
+        let cell1 = document.createElement('div');
+        let cell2 = document.createElement('div'); 
+        let cell3 = document.createElement('div'); 
+        let cell4 = document.createElement('div'); 
+        let cell5 = document.createElement('div'); 
+        let cell6 = document.createElement('div'); 
+        let cell7 = document.createElement('div'); 
+        let cell8 = document.createElement('div'); 
+        let cell9 = document.createElement('div'); 
+
+        document.body.appendChild(boardWrapper);
+        boardWrapper.appendChild(cell1);
+        boardWrapper.appendChild(cell2);
+        boardWrapper.appendChild(cell3);
+        boardWrapper.appendChild(cell4);
+        boardWrapper.appendChild(cell5);
+        boardWrapper.appendChild(cell6);
+        boardWrapper.appendChild(cell7);
+        boardWrapper.appendChild(cell8);
+        boardWrapper.appendChild(cell9);
+
+        cell1.textContent = board[0][0];
+        cell2.textContent = board[0][1];
+        cell3.textContent = board[0][2];
+
+        cell4.textContent = board[1][0];
+        cell5.textContent = board[1][1];
+        cell6.textContent = board[1][2];
+
+        cell7.textContent = board[2][0];
+        cell8.textContent = board[2][1];
+        cell9.textContent = board[2][2];
+    }
+
+
+
+    return {displayStartButton, getUserInfo, drawBoard}
+})
+
 function initGame () {
-    console.log(gameBoard.getBoard())
+
 }
 
-initGame()
+const displayControl = displayController()
+displayControl.getUserInfo()
 
+console.log(gameBoard.getBoard())
 
+const player1 = player('Mahmut', 'X');
+console.log(player1.getPlayerInfo())
 
-// console.log(gameBoard.getBoard())
+const player2 = player('Anan', 'O');
+console.log(player2.getPlayerInfo())
 
-// const player1 = player('Mahmut', 'X');
-// console.log(player1.getPlayerInfo())
+const newGame = playGame(gameBoard, player1, player2)
 
-// const player2 = player('Anan', 'O');
-// console.log(player2.getPlayerInfo())
+newGame.playRound(player1, [0,0])
+newGame.playRound(player1, [0,1])
+newGame.playRound(player1, [0,2])
 
-// const newGame = playGame(gameBoard, player1, player2)
+console.log(gameBoard.getBoard())
 
-// newGame.playRound(player1, [0,0])
-// newGame.playRound(player1, [0,1])
-// newGame.playRound(player1, [0,2])
+displayControl.drawBoard(gameBoard.getBoard())
 
-// console.log(gameBoard.getBoard())
+newGame.playRound(player1, [1,1])
 
+displayControl.drawBoard(gameBoard.getBoard())
 
 
 

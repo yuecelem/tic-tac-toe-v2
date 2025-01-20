@@ -1,0 +1,51 @@
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.startBtn {
+    background-color: greenyellow;
+    border: 1px solid black;
+    border-radius: 4px;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    font-size: 32px;
+    padding: 12px 32px;
+}
+
+.hidden {
+    display: none;
+}
+
+.startBtn:hover {
+    background-color: rgba(172, 255, 47, 0.438);
+}
+
+.getUserInfoWrapper {
+    display: flex;
+    flex-direction: column ;
+    max-width: 600px;
+}
+.getUserInfoWrapper > input {
+
+    margin-top: 12px;
+}
+.getUserInfoWrapper > div {
+
+    margin-top: 12px;
+}
+.getUserInfoWrapper > button {
+    width: 90px;
+    height: 40px;
+    margin-top: 12px;
+}
+
+.boardWrapper{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+} 
