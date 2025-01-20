@@ -1,8 +1,8 @@
 const gameBoard = (() => {
     let board = [
-        [0, 0, 0],
-        [0, 0, 0],
-        [0, 0, 0]
+        ['', '', ''],
+        ['', '', ''],
+        ['', '', '']
     ];
 
     function markCell(cell, symbol) {
@@ -10,7 +10,7 @@ const gameBoard = (() => {
     }
 
     function checkCell(cell) {
-        return (board[cell[0]][cell[1]] == '0')
+        return (board[cell[0]][cell[1]] == '')
     }
 
     function getBoard () {
@@ -53,63 +53,78 @@ const playGame = ((board, player1, player2) => {
             console.log("Cell is occupied")
         }}
 
-    function setWinner() {
+    function checkWinner() {
 
         let boardState = board.getBoard();
 
-        //Rows
-        if(boardState[0][0] === 'X' && boardState[0][1] === 'X' && boardState[0][2] === 'X'){
-            winner = 'X';
-            return winner
- 
-        } else if (boardState[1][0] === 'X' && boardState[1][1] === 'X' && boardState[1][2] === 'X') {
-            winner = 'X';
-            return winner
- 
-        } else if (boardState[2][0] === 'X' && boardState[2][1] === 'X' && boardState[2][2] === 'X') {
-            winner = 'X';
-            return winner
- 
-        } else if(boardState[0][0] === 'O' && boardState[0][1] === 'O' && boardState[0][2] === 'O'){
-            winner = 'O';
-            return winner
- 
-        } else if (boardState[1][0] === 'O' && boardState[1][1] === 'O' && boardState[1][2] === 'O') {
-            winner = 'O';
-            return winner
- 
-        } else if (boardState[2][0] === 'O' && boardState[2][1] === 'O' && boardState[2][2] === 'O') {
-            winner = 'O';
-            return winner
- 
-        //Columns
-        } else if(boardState[0][0] === 'X' && boardState[1][0] === 'X' && boardState[2][0] === 'X'){
-            winner = 'X';
-            return winner
- 
-        } else if (boardState[0][1] === 'X' && boardState[1][1] === 'X' && boardState[2][1] === 'X') {
-            winner = 'X';
-            return winner
- 
-        } else if (boardState[0][2] === 'X' && boardState[1][2] === 'X' && boardState[2][2] === 'X') {
-            winner = 'X';
-            return winner
- 
-        } else if(boardState[0][0] === 'O' && boardState[1][0] === 'O' && boardState[2][0] === 'O'){
-            winner = 'O';
-            return winner
- 
-        } else if (boardState[0][1] === 'O' && boardState[1][1] === 'O' && boardState[2][1] === 'O') {
-            winner = 'O';
-            return winner
- 
-        } else if (boardState[0][2] === 'O' && boardState[1][2] === 'O' && boardState[2][2] === 'O') {
-            winner = 'O';
-            return winner
+        for (let i = 0; i < 3; i++){
+            if(boardState[i][0] === boardState[i][1] && boardState[i][1] === boardState[i][2] && boardState[i][0] !== '') {
+                winner = boardState[i][0];
+                return winner
+            }
+        }
 
-        } 
+        for (let i = 0; i < 3; i++){
+            if(boardState[0][i] === boardState[1][i] && boardState[1][i] === boardState[2][i] && boardState[0][i] !== '') {
+                winner = boardState[i][0];
+                return winner
+            }
+        }
+
+
+        // //Rows
+        // if(boardState[0][0] === 'X' && boardState[0][1] === 'X' && boardState[0][2] === 'X'){
+        //     winner = 'X';
+        //     return winner
+ 
+        // } else if (boardState[1][0] === 'X' && boardState[1][1] === 'X' && boardState[1][2] === 'X') {
+        //     winner = 'X';
+        //     return winner
+ 
+        // } else if (boardState[2][0] === 'X' && boardState[2][1] === 'X' && boardState[2][2] === 'X') {
+        //     winner = 'X';
+        //     return winner
+ 
+        // } else if(boardState[0][0] === 'O' && boardState[0][1] === 'O' && boardState[0][2] === 'O'){
+        //     winner = 'O';
+        //     return winner
+ 
+        // } else if (boardState[1][0] === 'O' && boardState[1][1] === 'O' && boardState[1][2] === 'O') {
+        //     winner = 'O';
+        //     return winner
+ 
+        // } else if (boardState[2][0] === 'O' && boardState[2][1] === 'O' && boardState[2][2] === 'O') {
+        //     winner = 'O';
+        //     return winner
+ 
+        // //Columns
+        // } else if(boardState[0][0] === 'X' && boardState[1][0] === 'X' && boardState[2][0] === 'X'){
+        //     winner = 'X';
+        //     return winner
+ 
+        // } else if (boardState[0][1] === 'X' && boardState[1][1] === 'X' && boardState[2][1] === 'X') {
+        //     winner = 'X';
+        //     return winner
+ 
+        // } else if (boardState[0][2] === 'X' && boardState[1][2] === 'X' && boardState[2][2] === 'X') {
+        //     winner = 'X';
+        //     return winner
+ 
+        // } else if(boardState[0][0] === 'O' && boardState[1][0] === 'O' && boardState[2][0] === 'O'){
+        //     winner = 'O';
+        //     return winner
+ 
+        // } else if (boardState[0][1] === 'O' && boardState[1][1] === 'O' && boardState[2][1] === 'O') {
+        //     winner = 'O';
+        //     return winner
+ 
+        // } else if (boardState[0][2] === 'O' && boardState[1][2] === 'O' && boardState[2][2] === 'O') {
+        //     winner = 'O';
+        //     return winner
+
+        // } 
         //Diagonal
-        else if(boardState[0][0] === 'X' && boardState[1][1] === 'X' && boardState[2][2] === 'X'){
+        if(boardState[0][0] === 'X' && boardState[1][1] === 'X' && boardState[2][2] === 'X'){
             winner = 'X';
             return winner
 
@@ -135,7 +150,7 @@ const playGame = ((board, player1, player2) => {
     }
 
 
-    return { playRound, setWinner, getWinner }
+    return { playRound, checkWinner, getWinner }
 
 
 })
@@ -218,6 +233,11 @@ const displayController = (() => {
     }
 
     function drawBoard(board) {
+
+        if(document.querySelector('.boardWrapper')) {
+            document.querySelector('.boardWrapper').remove()
+        }
+
         const boardWrapper = document.createElement('div');
         boardWrapper.classList.add('boardWrapper')
         let cell1 = document.createElement('div');
@@ -256,15 +276,13 @@ const displayController = (() => {
 
 
 
+
     return {displayStartButton, getUserInfo, drawBoard}
 })
 
-function initGame () {
 
-}
 
 const displayControl = displayController()
-displayControl.getUserInfo()
 
 console.log(gameBoard.getBoard())
 
@@ -285,9 +303,5 @@ console.log(gameBoard.getBoard())
 displayControl.drawBoard(gameBoard.getBoard())
 
 newGame.playRound(player1, [1,1])
-
-displayControl.drawBoard(gameBoard.getBoard())
-
-
 
 
