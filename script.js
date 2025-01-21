@@ -31,7 +31,7 @@ const gameBoard = (() => {
         checkCell,
         resetBoard 
     }
-});
+})();
 
 const player = (() => {
 
@@ -59,7 +59,7 @@ const playGame = (() => {
 
     let winner = '';
     
-    const board = gameBoard();
+    const board = gameBoard;
 
     const player1 = player();
     player1.setPlayerInfo('mahmut', 'X')
@@ -87,10 +87,11 @@ const playGame = (() => {
     function checkWinner() {
 
         const boardState = board.getBoard();
-
+        
         for (let i = 0; i < 3; i++){
             if(boardState[i][0] === boardState[i][1] && boardState[i][1] === boardState[i][2] && boardState[i][0] !== '') {
                 winner = boardState[i][0];
+                console.log(winner)
                 return winner
             }
         }
@@ -98,10 +99,11 @@ const playGame = (() => {
         for (let i = 0; i < 3; i++){
             if(boardState[0][i] === boardState[1][i] && boardState[1][i] === boardState[2][i] && boardState[0][i] !== '') {
                 winner = boardState[i][0];
+                console.log(winner)
+
                 return winner
             }
         }
-
         if(boardState[0][0] === 'X' && boardState[1][1] === 'X' && boardState[2][2] === 'X'){
             winner = 'X';
             return winner
@@ -135,6 +137,7 @@ const playGame = (() => {
         alternateCurrentPlayer,
         getCurrentPlayer,
         getBoard: board.getBoard,
+        resetBoard: board.resetBoard,
     }
 
 
@@ -143,14 +146,13 @@ const playGame = (() => {
 function screenController () {
 
     const game = playGame();
-    const board = game.getBoard();
 
     const gridContainer = document.getElementById('gridContainer');
     const statusBar = document.getElementById('status');
 
     function startBtnClickHandler (e) {
         e.target.classList.add('hidden'); 
-        console.log(e.target)            
+          
         gridContainer.classList.remove('hidden');
         statusBar.classList.remove('hidden');
     }
@@ -162,9 +164,52 @@ function screenController () {
         statusBar.innerText = currentPlayerSymbol + "'s turn.";
     }
 
-    function playerMoveHandler() {
+    const gridCells = document.querySelectorAll('.grid')
+    
+    gridCells.forEach((cell) => {
+        cellLocation1 = [];
+        cellLocation2 = [];
+        if (cell.id <= 2) {
+            cellLocation1 = 0;
+            cellLocation2 = Number(cell.id);
+        } else if (cell.id > 2 && cell.id <= 5 ) {
+            cellLocation1 = 1;
+            cellLocation2 = Number(cell.id - 3);
+        } else {
+            cellLocation1 = 2;
+            cellLocation2 = Number(cell.id - 6);
+        }
+        cell.setAttribute('cellLocation1', cellLocation1);
+        cell.setAttribute('cellLocation2', cellLocation2);
+
+    })
+
+    function resetDisplay() {
+        gridCells.forEach((cell) => {
+            cell.innerText = '';
+        })
+    }
+
+    function updateDisplay() {
+        resetDisplay();
+        gridCells.forEach((cell) => {
+            cell.innerText = game.getBoard()[cell.getAttribute('cellLocation1')][cell.getAttribute('cellLocation2')]
+        });
 
     }
+
+    gridCells.forEach((cell) => {
+        addEventListener("click", (e) => {
+            if(e.target == cell){
+                cellLocation = [cell.getAttribute('cellLocation1'), cell.getAttribute('cellLocation2')];
+                game.playRound(game.getCurrentPlayer(), cellLocation);
+                game.alternateCurrentPlayer();
+                game.checkWinner();
+                updateDisplay();
+            }
+        })
+    })
+
 
 }
 
