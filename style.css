@@ -3,10 +3,18 @@ body{
     justify-content: center;
     align-items: center;
     height: 100vh;
+    background-color: rgb(216, 231, 147);
+}
+
+.gameContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 }
 
 #startGameBtn {
-    background-color: greenyellow;
+    background-color: rgb(132, 197, 35);
     border: 1px solid black;
     border-radius: 4px;
 
@@ -16,6 +24,21 @@ body{
     padding: 12px 32px;
 }
 
+#startGameBtn:hover {
+    background-color: rgb(172, 255, 47);
+
+}
+.gridContainer {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    height: 300px;
+}
+
+.grid{
+    height: 100px;
+    width: 100px;
+    border: solid 1px black;
+}
 .hidden {
     display: none;
 }

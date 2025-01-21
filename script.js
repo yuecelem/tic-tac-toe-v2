@@ -31,7 +31,7 @@ const gameBoard = (() => {
         checkCell,
         resetBoard 
     }
-})();
+});
 
 const player = (() => {
 
@@ -141,9 +141,21 @@ const playGame = (() => {
 })
 
 function screenController () {
-    
+
+    const game = playGame();
+
+    function startBtnClickHandler (e) {
+        e.target.classList.add('hidden'); 
+            
+        console.log(document.getElementById('gridContainer'))  
+        document.getElementById('gridContainer').classList.remove('hidden');
+
+    }
+
+    document.getElementById('startGameBtn').onclick = startBtnClickHandler;
+
 }
 
-
+screenController();
 
 
