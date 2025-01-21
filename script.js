@@ -73,6 +73,10 @@ const playGame = (() => {
         currentPlayer = currentPlayer === player1 ? player2 : player1; 
     }
 
+    function resetCurrentPlayer () {
+        currentPlayer = player1
+    }
+
     function getCurrentPlayer () {
         return currentPlayer;
     }
@@ -92,6 +96,8 @@ const playGame = (() => {
             if(boardState[i][0] === boardState[i][1] && boardState[i][1] === boardState[i][2] && boardState[i][0] !== '') {
                 winner = boardState[i][0];
                 console.log(winner)
+
+                console.log(typeof winner)
                 return winner
             }
         }
@@ -100,6 +106,9 @@ const playGame = (() => {
             if(boardState[0][i] === boardState[1][i] && boardState[1][i] === boardState[2][i] && boardState[0][i] !== '') {
                 winner = boardState[i][0];
                 console.log(winner)
+                console.log(typeof winner)
+                console.log(typeof boardState[i][0])
+
 
                 return winner
             }
@@ -121,12 +130,16 @@ const playGame = (() => {
         } else if (boardState[0][2] === 'O' && boardState[1][1] === 'O' && boardState[2][0] === 'O') {
             winner = 'O';
             return winner
-        } else if (boardState[0][0] !== '' && boardState[1][0] !== '' && boardState[2][0] !== '' && boardState[0][1] !== '' && boardState[1][1] !== '' && boardState[2][1] !== '' && boardState[0][2] !== '' && boardState[1][2] !== '' && boardState[2][2] !== '') return console.log("It's a tie!")
+        } else if (boardState[0][0] !== '' && boardState[1][0] !== '' && boardState[2][0] !== '' && boardState[0][1] !== '' && boardState[1][1] !== '' && boardState[2][1] !== '' && boardState[0][2] !== '' && boardState[1][2] !== '' && boardState[2][2] !== '') {winner = 'Tie'}
 
     }
 
     function getWinner () {
         return winner
+    }
+
+    function resetWinner() {
+        winner = '';
     }
 
 
@@ -138,6 +151,8 @@ const playGame = (() => {
         getCurrentPlayer,
         getBoard: board.getBoard,
         resetBoard: board.resetBoard,
+        resetCurrentPlayer,
+        resetWinner,
     }
 
 
@@ -149,19 +164,36 @@ function screenController () {
 
     const gridContainer = document.getElementById('gridContainer');
     const statusBar = document.getElementById('status');
+    const resetBtn = document.getElementById('resetBtn');
 
     function startBtnClickHandler (e) {
         e.target.classList.add('hidden'); 
           
         gridContainer.classList.remove('hidden');
         statusBar.classList.remove('hidden');
+        resetBtn.classList.remove('hidden');
+
+        displayStatusBar();
     }
 
     document.getElementById('startGameBtn').onclick = startBtnClickHandler;
 
-    function displayCurrentPlayer () {
+    function displayStatusBar () {
+        if(game.getWinner() === '') {
         const currentPlayerSymbol = game.getCurrentPlayer().getPlayerInfo().symbol;
         statusBar.innerText = currentPlayerSymbol + "'s turn.";
+        } else {
+            displayResult();
+        }
+
+    }
+
+    function displayResult() {
+        if(game.getWinner() === 'Tie') {
+        statusBar.innerText = "It's a Tie!" 
+        } else {
+        statusBar.innerText = game.getWinner() + ' wins!'
+        }
     }
 
     const gridCells = document.querySelectorAll('.grid')
@@ -200,15 +232,26 @@ function screenController () {
 
     gridCells.forEach((cell) => {
         addEventListener("click", (e) => {
-            if(e.target == cell){
+            if(e.target == cell && game.getWinner() === ''){
                 cellLocation = [cell.getAttribute('cellLocation1'), cell.getAttribute('cellLocation2')];
                 game.playRound(game.getCurrentPlayer(), cellLocation);
                 game.alternateCurrentPlayer();
                 game.checkWinner();
                 updateDisplay();
+                displayStatusBar();
             }
         })
     })
+
+    function resetGame() {
+        game.resetBoard();
+        game.resetCurrentPlayer();
+        resetDisplay();
+        game.resetWinner();
+        displayStatusBar();
+    }
+
+    resetBtn.addEventListener("click", resetGame)
 
 
 }
