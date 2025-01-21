@@ -59,7 +59,7 @@ const playGame = (() => {
 
     let winner = '';
     
-    const board = gameBoard;
+    const board = gameBoard();
 
     const player1 = player();
     player1.setPlayerInfo('mahmut', 'X')
@@ -134,7 +134,7 @@ const playGame = (() => {
         getWinner,
         alternateCurrentPlayer,
         getCurrentPlayer,
-        board,
+        getBoard: board.getBoard,
     }
 
 
@@ -143,16 +143,28 @@ const playGame = (() => {
 function screenController () {
 
     const game = playGame();
+    const board = game.getBoard();
+
+    const gridContainer = document.getElementById('gridContainer');
+    const statusBar = document.getElementById('status');
 
     function startBtnClickHandler (e) {
         e.target.classList.add('hidden'); 
-            
-        console.log(document.getElementById('gridContainer'))  
-        document.getElementById('gridContainer').classList.remove('hidden');
-
+        console.log(e.target)            
+        gridContainer.classList.remove('hidden');
+        statusBar.classList.remove('hidden');
     }
 
     document.getElementById('startGameBtn').onclick = startBtnClickHandler;
+
+    function displayCurrentPlayer () {
+        const currentPlayerSymbol = game.getCurrentPlayer().getPlayerInfo().symbol;
+        statusBar.innerText = currentPlayerSymbol + "'s turn.";
+    }
+
+    function playerMoveHandler() {
+
+    }
 
 }
 
